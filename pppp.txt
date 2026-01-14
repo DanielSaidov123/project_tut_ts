@@ -1,0 +1,67 @@
+1️⃣ התקנת NestJS CLI
+מאפשר להשתמש בפקודות nest כמו nest new, nest g module וכו'
+
+npm install -g @nestjs/cli
+
+2️⃣ יצירת הפרויקט
+יוצר פרויקט חדש בשם base-equipment-system
+
+nest new base-equipment-system cd base-equipment-system
+
+3️⃣ יצירת מודולים, controllers ו-services
+users module עם CRUD
+
+nest g resource users --no-spec --crud
+
+equipment module עם CRUD
+
+nest g resource equipment --no-spec --crud
+
+loans module עם CRUD
+
+nest g resource loans --no-spec --crud
+
+auth module (ליצירת JWT, login וכו')
+
+nest g module auth nest g controller auth nest g service auth
+
+4️⃣ התקנת Sequelize + database drivers
+Sequelize ORM עם TypeScript ו-MySQL
+
+npm install --save @nestjs/sequelize sequelize sequelize-typescript mysql2
+
+אם רוצים SQLite במקום MySQL
+
+npm install --save sqlite3
+
+5️⃣ התקנת JWT + bcrypt
+JWT ל-authentication, bcrypt להצפנת סיסמאות
+
+npm install --save @nestjs/jwt bcrypt npm install --save-dev @types/bcrypt
+
+6️⃣ התקנת NestJS core packages אם צריך (לעבודה עם Reflector וכו')
+
+npm install --save @nestjs/core
+
+7️⃣ (אופציונלי) התקנת VSCode extensions או Formatter
+לא חובה לקוד אך עוזר לסדר ולהציג את הקבצים
+(למשל Prettier)
+8️⃣ חיבור Sequelize ב-app.module.ts
+למשל:
+SequelizeModule.forRoot({ dialect: 'sqlite', storage: 'database.sqlite', autoLoadModels: true, synchronize: true })
+9️⃣ הגדרת RolesGuard
+מאפשר לבדוק JWT ולסנן לפי role
+לא פקודה אלא קוד TypeScript
+1️⃣0️⃣ יצירת route עם guard ו-role
+לא פקודה אלא קוד TypeScript
+לדוגמה:
+@UseGuards(RolesGuard)
+@Roles('commander')
+@Get('secret')
+getSecret() { return "You are a commander!"; }
+1️⃣1️⃣ בדיקה עם Postman
+POST /auth/login עם body {username, password} → מקבלים JWT
+GET /users/secret עם header Authorization: Bearer
+commander נכנס, soldier מקבל 403
+הערה:
+כל פקודות ה-CRUD עם --crud ו--no-spec יוצרות כבר את כל ה-service, controller וה-model הבסיסיים עם פעולות CRUD.
